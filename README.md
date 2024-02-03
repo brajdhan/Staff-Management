@@ -9,7 +9,7 @@ php artisan serve and open on crome browser http://127.0.0.1:8000/login
 login details : email: admin@gmail.com
                 password : admin@123
 
-APi postman collection
+API postman collection
 
 No Auth API
 1 Login user
