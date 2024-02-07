@@ -19,6 +19,3 @@ Auth API
 2 Get User Info
 3 Update User
 4 Logout 
-
-
-              

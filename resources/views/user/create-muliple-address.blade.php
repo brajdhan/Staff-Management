@@ -26,7 +26,7 @@
                 </div>
                 <div class="card-body pt-3">
 
-                    {!! Form::open(array('route' => 'users.store','method'=>'POST')) !!}
+                    {!! Form::open(array( 'id'=>'myForm', 'route' => 'users.store','method'=>'POST')) !!}
 
                     <div class="row mb-3">
                         <label class="col-sm-3 col-form-label" for="basic-default-name">First Name <span class="text-danger">*</span></label>
@@ -138,6 +138,19 @@
                     </div>
 
 
+                    <div class="addresses-container">
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label" for="basic-default-address">Address</label>
+            <div class="col-sm-7">
+                <textarea name="address[]" placeholder="Enter address" class="form-control" cols="3" rows="3"></textarea>
+            </div>
+            <div class="col-sm-2">
+                <button type="button" class="btn btn-success">Add Address</button>
+            </div>
+        </div>
+    </div>
+
+
                     <div class="row justify-content-end">
                         <div class="col-sm-9 text-end">
                             <button type="submit" class="btn btn-primary">Add User</button>
@@ -156,3 +169,55 @@
 </div>
 
 @endsection
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function(){
+        // Append new address field
+        $('.btn-success').click(function(){
+            var i=0;
+            
+            var html = '<div class="row mb-3">' +
+                '<label class="col-sm-3 col-form-label" for="basic-default-address">Address '+i+1+'</label>' +
+                '<div class="col-sm-7">' +
+                '<textarea name="address[]" placeholder="Enter address" class="form-control" cols="3" rows="3"></textarea>' +
+                '</div>' +
+                '<div class="col-sm-2">' +
+                '<button class="btn btn-danger remove-address">Remove</button>' +
+                '</div>' +
+                '</div>';
+            $('.addresses-container').append(html);
+            
+        });
+
+        // Remove address field
+        $(document).on('click', '.remove-address', function(){
+            $(this).closest('.row').remove();
+        });
+
+
+    
+        $('#myForm').submit(function(e){
+            e.preventDefault(); // Prevent default form submission
+
+            // Serialize form data
+            var formData = $(this).serialize();
+
+            // Send AJAX request
+            $.ajax({
+                url: $(this).attr('action'),
+                type: 'POST',
+                data: formData,
+                success: function(response){
+                    // Handle successful response
+                    console.log(response);
+                },
+                error: function(xhr, status, error){
+                    // Handle errors
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>
