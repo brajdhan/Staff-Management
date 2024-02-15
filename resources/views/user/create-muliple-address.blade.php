@@ -26,7 +26,7 @@
                 </div>
                 <div class="card-body pt-3">
 
-                    {!! Form::open(array( 'id'=>'myForm', 'route' => 'users.store','method'=>'POST')) !!}
+                    {!! Form::open(array( 'route' => 'users.store','method'=>'POST')) !!}
 
                     <div class="row mb-3">
                         <label class="col-sm-3 col-form-label" for="basic-default-name">First Name <span class="text-danger">*</span></label>
@@ -113,42 +113,35 @@
                         </div>
                     </div>
 
-                    <div class="row mb-3">
-                        <label class="col-sm-3 col-form-label" for="basic-default-current-address">Current Address</label>
-                        <div class="col-sm-9">
-
-                            {!! Form::textarea('current_address', null, array('placeholder' => 'Enter current address','class' => 'form-control', 'cols' =>3, 'rows' =>3)) !!}
-
-                            @if ($errors->has('current_address'))
-                            <div class="invalid-feedback d-block">{{$errors->first('current_address')}}</div>
-                            @endif
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <label class="col-sm-3 col-form-label" for="basic-default-permanent-address">Permanent Address</label>
-                        <div class="col-sm-9">
-
-                            {!! Form::textarea('permanent_address', null, array('placeholder' => 'Enter permanent address','class' => 'form-control', 'cols' =>3, 'rows' =>3)) !!}
-
-                            @if ($errors->has('permanent_address'))
-                            <div class="invalid-feedback d-block">{{$errors->first('permanent_address')}}</div>
-                            @endif
-                        </div>
-                    </div>
-
 
                     <div class="addresses-container">
-        <div class="row mb-3">
-            <label class="col-sm-3 col-form-label" for="basic-default-address">Address</label>
-            <div class="col-sm-7">
-                <textarea name="address[]" placeholder="Enter address" class="form-control" cols="3" rows="3"></textarea>
-            </div>
-            <div class="col-sm-2">
-                <button type="button" class="btn btn-success">Add Address</button>
-            </div>
-        </div>
-    </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label" for="basic-default-address">Address</label>
+                            <div class="col-sm-7">
+                                <textarea name="address[]" placeholder="Enter address" class="form-control" cols="3" rows="3">{{old('address')[0] ?? ''}}</textarea>
+                            </div>
+                            <div class="col-sm-2">
+                                <button type="button" class="btn btn-success">Add Address</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    @if(old('address') != null)
+                        @php $address_old = old('address'); unset($address_old[0]); @endphp
+                        @foreach($address_old as $ad)
+                        <div class="row mb-3">
+                            <div class="row mb-3">
+                                <label class="col-sm-3 col-form-label" for="basic-default-address">Address</label>
+                                <div class="col-sm-7">
+                                    <textarea name="address[]" placeholder="Enter address" class="form-control" cols="3" rows="3">{{$ad}}</textarea>
+                                </div>
+                                <div class="col-sm-2">
+                                <button class="btn btn-danger remove-address">Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                    @endif
 
 
                     <div class="row justify-content-end">

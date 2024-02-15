@@ -38,7 +38,8 @@ class UserController extends Controller
             }
         }
 
-        return view('user.create', compact('roles'));
+        // return view('user.create', compact('roles'));
+        return view('user.create-muliple-address', compact('roles'));
     }
 
     /**
@@ -46,6 +47,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $request->address;
         $request->validate([
             'first_name' => 'required|min:3',
             'last_name' => 'required|min:3',
@@ -55,8 +57,7 @@ class UserController extends Controller
             'gender' => 'required',
             'role' => 'required',
             'designation' => 'nullable',
-            'current_address' => 'nullable',
-            'permanent_address' => 'nullable',
+            'address'=>'required|array'
         ]);
 
         $user = new User;
@@ -67,8 +68,7 @@ class UserController extends Controller
         $user->password = Hash::make($request->password);
         $user->gender = $request->gender;
         $user->designation = $request->designation ?? NULL;
-        $user->current_address = $request->current_address ?? NULL;
-        $user->permanent_address = $request->permanent_address ?? NULL;
+        $user->current_address = json_encode($request->address);
         $user->save();
 
         $user->assignRole($request->input('role'));
@@ -120,8 +120,7 @@ class UserController extends Controller
             'role' => 'required',
             'gender' => 'required',
             'designation' => 'nullable',
-            'current_address' => 'nullable',
-            'permanent_address' => 'nullable',
+            'address' => 'required|array|nullable',
         ]);
 
         $update_user = User::find($id);
@@ -130,8 +129,7 @@ class UserController extends Controller
         $update_user->email = $request->email;
         $update_user->phone = $request->phone;
         $update_user->gender = $request->gender;
-        $update_user->current_address = $request->current_address ?? NULL;
-        $update_user->permanent_address = $request->permanent_address ?? NULL;
+        $update_user->current_address = json_encode($request->address) ?? NULL;
         $update_user->designation = $request->designation ?? NULL;
 
         if ($request->password) {
