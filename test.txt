@@ -1,0 +1,3 @@
+
+KEY='MAE3HHEAOUZNH669ORDNDD4ACATDBAC3' # KEY set any string of 32 chars
+IV='3527217583485831' # IV set any string of 16 chars
